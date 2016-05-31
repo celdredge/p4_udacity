@@ -277,22 +277,62 @@ Median sulphate seemed to increase as quality increased. There were a fair numbe
 
 Median percent alcohol content incdreased as the quality of the wine increased. This appears to be one of the strongest relationships of any of the attributes in the dataset.
 
+```{r}
+cor.test(rw$alcohol,as.numeric(rw$quality))
+```
+
+Although the plots suggest the relationship between alcohol content and quality may be the strongest, the correlation is only moderately positive, r = ~0.48
+
 # Bivariate Analysis
 
 ### Talk about some of the relationships you observed in this part of the investigation. How did the feature(s) of interest vary with other features in the dataset?
 
+I found it interesting that the plots suggest that one of the strongest relationships is between alcohol content and wine rating. As alcohol content increased, so did wine rating. Additionally, I found the opposite relationships between fixed (increased as rating increased) and volatile (decreased as rating increased) acidity interesting, because both measure acid in some form. However, from reviewing the notes about high levels of volatile acidity causing an unpleasant, vinegar taste, so this relationship makes sense.
+
+
 ### Did you observe any interesting relationships between the other features (not the main feature(s) of interest)?
+
+
 
 ### What was the strongest relationship you found?
 
-
+The strongest relationship appears to be between wine rating and alcohol content. As alcohol content increased, so did the rating. The Pearson correlation coefficient shows a moderately positive relationship (Pearson's product-moment correlation r = 0.4761663).
 
 
 # Multivariate Plots Section
 
-```{r echo=FALSE, Multivariate_Plots}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+ggplot(aes(x = carat, y = price, color = color), data = diamonds) + 
+  geom_point(alpha = 0.5, size = 1, position = 'jitter') +
+  scale_color_brewer(type = 'div',
+                     guide = guide_legend(title = 'Color', 
+                                          override.aes = list(alpha = 1, size = 2))) +  
+  scale_x_continuous(trans = cuberoot_trans(), limits = c(0.2, 3),
+                     breaks = c(0.2, 0.5, 1, 2, 3)) + 
+  scale_y_continuous(trans = log10_trans(), limits = c(350, 15000),
+                     breaks = c(350, 1000, 5000, 10000, 15000)) +
+  ggtitle('Price (log10) by Cube-Root of Carat and Color')
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(RColorBrewer)
+
+ggplot(aes(x = fixed.acidity, y = volatile.acidity, color = quality), data = rw) +
+  geom_point(alpha = 0.5, size = 1, position = 'jitter') +
+  scale_color_brewer(type = 'seq', guide = guide_legend(title = 'Quality Rating', reverse = T))
 
 ```
+
+This scatter plot of fixed acidity and volatile acidity shows most wines in the data set clustering within a similar overall range, and higher-rated wines tending to have lower scores, particularly for volatile acidity, which is associated with an unpleasant vinegar taste.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+```
+
 
 # Multivariate Analysis
 
